@@ -27,6 +27,7 @@ docker build -t ${BASE_IMAGE} --rm -f ${TempDockerBase} .
 DEBUG_IMAGE="fis-gtm-devel:${UBUNTU_VERSION}"
 TempDockerDev=".Dockerfile.dev"
 install_devtools=install_devtools.sh
+install_node=install_node.sh
 
 cat <<EOF > ${TempDockerDev}
 FROM ${BASE_IMAGE}
@@ -35,11 +36,14 @@ MAINTAINER Timur Safin
 
 COPY	${install_devtools} /root
 RUN 	chmod +x /root/${install_devtools}
+COPY	${install_node} /root
+RUN	chmod +x /root/${install_node}
 COPY    dev-root/.gdbinit /root
 COPY    dev-root/run-gdb.sh /root
 COPY    dev-root/run-cmake.sh /root
 RUN	chmod +x /root/run-gdb.sh /root/run-cmake.sh
 RUN	["/root/${install_devtools}"]
+RUN	["/root/${install_node}"]
 
 VOLUME ["/tmp/fis-gtm"]
 

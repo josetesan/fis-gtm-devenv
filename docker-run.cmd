@@ -1,1 +1,1 @@
-docker run -ti --security-opt seccomp=unconfined -v "%CD%:/tmp/fis-gtm" tsafin/fis-gtm-devel:xenial
+docker run -ti --security-opt seccomp=unconfined -v "%CD%:/tmp/fis-gtm" tsafin/fis-gtm-devel:bionic
