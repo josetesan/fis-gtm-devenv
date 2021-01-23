@@ -29,6 +29,7 @@ TempDockerDev=".Dockerfile.dev"
 install_devtools=install_devtools.sh
 install_node=install_node.sh
 install_nodem=install_nodem.sh
+nodem_zip=nodem.zip
 
 cat <<EOF > ${TempDockerDev}
 FROM ${BASE_IMAGE}
@@ -46,16 +47,17 @@ COPY	${install_node} /root
 RUN	    chmod +x /root/${install_node}
 RUN	    ["/root/${install_node}"]
 
-RUN useradd -ms /bin/bash nodem
 
-COPY	${install_nodem} /home/nodem
+
+RUN     useradd -ms /bin/bash nodem
+WORKDIR		/home/nodem
+
+COPY	${nodem_zip} /home/nodem
+COPY    ${install_nodem} /home/nodem
 RUN	    chmod +x /home/nodem/${install_nodem}
 
 USER	nodem
-WORKDIR		/home/nodem
-
-RUN	cd /home/nodem
-RUN	["/home/nodem/${install_nodem}"]
+RUN	    ["/home/nodem/${install_nodem}"]
 
 VOLUME ["/tmp/fis-gtm"]
 
